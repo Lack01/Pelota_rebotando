@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un pelota rebotando</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <script>
+        //Crea la clase pelota con sus atributos
+        var Pelota = function()
+        {
+            this.x = 200;
+            this.y = 200;
+            this.xVelocidad = -4;
+            this.yVelocidad = 6;
+        };
+        //Crea la pelota
+        var circulo = function(x ,y, radio, LlenarCirculo)
+        {
+            ctx.beginPath();
+            ctx.arc(x, y, radio, 0, Math.PI * 2, false);
+            if (LlenarCirculo)
+            {
+                ctx.fill();
+            } else {
+              ctx.stroke();      
+            }
+        };
+
+            Pelota.prototype.dibujo = function()
+            {
+                circulo(this.x, this.y, 10, true)
+            };
+
+            Pelota.prototype.mover = function()
+            {
+                this.x += this.xVelocidad;
+                this.y += this.yVelocidad;
+
+            };
+
+            Pelota.prototype.tocaborde = function()
+            {
+                if (this.x < 0 || this.x > 400) {
+                    this.xVelocidad = -this.xVelocidad;
+                 }
+                if (this.y < 0 || this.y > 400) {
+                    this.yVelocidad = -this.yVelocidad;
+                }
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+
+            var pelota = new Pelota();
+
+            setInterval(function() {
+                ctx.clearRect(0, 0, 400, 400);
+
+                pelota.dibujo();
+                pelota.mover();
+                pelota.tocaborde();
+                ctx.strokeRect(0, 0, 400, 400);
+            }, 30);
+
+    </script>
+</body>
+</html>
